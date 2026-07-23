@@ -15,54 +15,54 @@ export function explainRegex(pattern: string): RegexToken[] {
 
     // Anchors
     if (char === '^') {
-      tokens.push({ token: '^', explanation: 'Start av rad/sträng', position: i });
+      tokens.push({ token: '^', explanation: 'Start of line/string', position: i });
       i++;
     } else if (char === '$') {
-      tokens.push({ token: '$', explanation: 'Slut av rad/sträng', position: i });
+      tokens.push({ token: '$', explanation: 'End of line/string', position: i });
       i++;
     }
     // Word boundaries
     else if (remaining.startsWith('\\b')) {
-      tokens.push({ token: '\\b', explanation: 'Ordgräns', position: i });
+      tokens.push({ token: '\\b', explanation: 'Word boundary', position: i });
       i += 2;
     } else if (remaining.startsWith('\\B')) {
-      tokens.push({ token: '\\B', explanation: 'Icke-ordgräns', position: i });
+      tokens.push({ token: '\\B', explanation: 'Non-word boundary', position: i });
       i += 2;
     }
     // Character classes
     else if (remaining.startsWith('\\d')) {
-      tokens.push({ token: '\\d', explanation: 'Siffra (0-9)', position: i });
+      tokens.push({ token: '\\d', explanation: 'Digit (0-9)', position: i });
       i += 2;
     } else if (remaining.startsWith('\\D')) {
-      tokens.push({ token: '\\D', explanation: 'Icke-siffra', position: i });
+      tokens.push({ token: '\\D', explanation: 'Non-digit', position: i });
       i += 2;
     } else if (remaining.startsWith('\\w')) {
-      tokens.push({ token: '\\w', explanation: 'Ordtecken (a-z, A-Z, 0-9, _)', position: i });
+      tokens.push({ token: '\\w', explanation: 'Word character (a-z, A-Z, 0-9, _)', position: i });
       i += 2;
     } else if (remaining.startsWith('\\W')) {
-      tokens.push({ token: '\\W', explanation: 'Icke-ordtecken', position: i });
+      tokens.push({ token: '\\W', explanation: 'Non-word character', position: i });
       i += 2;
     } else if (remaining.startsWith('\\s')) {
-      tokens.push({ token: '\\s', explanation: 'Whitespace (mellanslag, tab, newline)', position: i });
+      tokens.push({ token: '\\s', explanation: 'Whitespace (space, tab, newline)', position: i });
       i += 2;
     } else if (remaining.startsWith('\\S')) {
-      tokens.push({ token: '\\S', explanation: 'Icke-whitespace', position: i });
+      tokens.push({ token: '\\S', explanation: 'Non-whitespace', position: i });
       i += 2;
     }
     // Special characters
     else if (char === '.') {
-      tokens.push({ token: '.', explanation: 'Vilket tecken som helst (utom newline)', position: i });
+      tokens.push({ token: '.', explanation: 'Any character (except newline)', position: i });
       i++;
     }
     // Quantifiers
     else if (char === '*') {
-      tokens.push({ token: '*', explanation: '0 eller fler upprepningar', position: i });
+      tokens.push({ token: '*', explanation: '0 or more repetitions', position: i });
       i++;
     } else if (char === '+') {
-      tokens.push({ token: '+', explanation: '1 eller fler upprepningar', position: i });
+      tokens.push({ token: '+', explanation: '1 or more repetitions', position: i });
       i++;
     } else if (char === '?') {
-      tokens.push({ token: '?', explanation: '0 eller 1 upprepning (optional)', position: i });
+      tokens.push({ token: '?', explanation: '0 or 1 repetition (optional)', position: i });
       i++;
     }
     // Quantifier ranges
@@ -74,12 +74,12 @@ export function explainRegex(pattern: string): RegexToken[] {
         if (content.includes(',')) {
           const [min, max] = content.split(',');
           if (max === '') {
-            tokens.push({ token: quantifier, explanation: `${min} eller fler upprepningar`, position: i });
+            tokens.push({ token: quantifier, explanation: `${min} or more repetitions`, position: i });
           } else {
-            tokens.push({ token: quantifier, explanation: `${min} till ${max} upprepningar`, position: i });
+            tokens.push({ token: quantifier, explanation: `${min} to ${max} repetitions`, position: i });
           }
         } else {
-          tokens.push({ token: quantifier, explanation: `Exakt ${content} upprepningar`, position: i });
+          tokens.push({ token: quantifier, explanation: `Exactly ${content} repetitions`, position: i });
         }
         i = closingBrace + 1;
       } else {
@@ -95,9 +95,9 @@ export function explainRegex(pattern: string): RegexToken[] {
         const content = isNegated ? charSet.slice(2, -1) : charSet.slice(1, -1);
 
         if (isNegated) {
-          tokens.push({ token: charSet, explanation: `Vilket tecken som helst UTOM: ${content}`, position: i });
+          tokens.push({ token: charSet, explanation: `Any character EXCEPT: ${content}`, position: i });
         } else {
-          tokens.push({ token: charSet, explanation: `Något av tecknen: ${content}`, position: i });
+          tokens.push({ token: charSet, explanation: `Any of these characters: ${content}`, position: i });
         }
         i = closingBracket + 1;
       } else {
@@ -116,28 +116,28 @@ export function explainRegex(pattern: string): RegexToken[] {
 
       const group = pattern.substring(i, j);
       if (group.startsWith('(?:')) {
-        tokens.push({ token: group, explanation: 'Icke-fångande grupp', position: i });
+        tokens.push({ token: group, explanation: 'Non-capturing group', position: i });
       } else if (group.startsWith('(?=')) {
-        tokens.push({ token: group, explanation: 'Positiv lookahead', position: i });
+        tokens.push({ token: group, explanation: 'Positive lookahead', position: i });
       } else if (group.startsWith('(?!')) {
-        tokens.push({ token: group, explanation: 'Negativ lookahead', position: i });
+        tokens.push({ token: group, explanation: 'Negative lookahead', position: i });
       } else if (group.startsWith('(?<=')) {
-        tokens.push({ token: group, explanation: 'Positiv lookbehind', position: i });
+        tokens.push({ token: group, explanation: 'Positive lookbehind', position: i });
       } else if (group.startsWith('(?<!')) {
-        tokens.push({ token: group, explanation: 'Negativ lookbehind', position: i });
+        tokens.push({ token: group, explanation: 'Negative lookbehind', position: i });
       } else {
-        tokens.push({ token: group, explanation: 'Fångande grupp (capture group)', position: i });
+        tokens.push({ token: group, explanation: 'Capturing group', position: i });
       }
       i = j;
     }
     // Alternation
     else if (char === '|') {
-      tokens.push({ token: '|', explanation: 'ELLER (alternativ)', position: i });
+      tokens.push({ token: '|', explanation: 'OR (alternation)', position: i });
       i++;
     }
     // Escaped characters
     else if (char === '\\' && nextChar && !['d', 'D', 'w', 'W', 's', 'S', 'b', 'B'].includes(nextChar)) {
-      tokens.push({ token: `\\${nextChar}`, explanation: `Literalt tecken: ${nextChar}`, position: i });
+      tokens.push({ token: `\\${nextChar}`, explanation: `Literal character: ${nextChar}`, position: i });
       i += 2;
     }
     // Literal characters
@@ -153,7 +153,7 @@ export function explainRegex(pattern: string): RegexToken[] {
         tokens.push({ token: literalChars, explanation: `Literal text: "${literalChars}"`, position: i });
         i = j;
       } else {
-        tokens.push({ token: char, explanation: `Literal tecken: "${char}"`, position: i });
+        tokens.push({ token: char, explanation: `Literal character: "${char}"`, position: i });
         i++;
       }
     }

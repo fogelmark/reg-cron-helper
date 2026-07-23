@@ -47,7 +47,7 @@ export default function CronTester() {
   }, [expression]);
 
   const formatDateTime = (date: Date): string => {
-    return new Intl.DateTimeFormat('sv-SE', {
+    return new Intl.DateTimeFormat('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -67,40 +67,40 @@ export default function CronTester() {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if (days > 0) return `om ${days} dag${days !== 1 ? 'ar' : ''}`;
-    if (hours > 0) return `om ${hours} timm${hours !== 1 ? 'ar' : 'e'}`;
-    if (minutes > 0) return `om ${minutes} minut${minutes !== 1 ? 'er' : ''}`;
-    return `om ${seconds} sekund${seconds !== 1 ? 'er' : ''}`;
+    if (days > 0) return `in ${days} day${days !== 1 ? 's' : ''}`;
+    if (hours > 0) return `in ${hours} hour${hours !== 1 ? 's' : ''}`;
+    if (minutes > 0) return `in ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    return `in ${seconds} second${seconds !== 1 ? 's' : ''}`;
   };
 
   return (
     <div className="space-y-6">
       {/* Cron Expression Input */}
       <div>
-        <label className="block text-sm font-medium mb-2">Cron-uttryck</label>
+        <label className="block text-sm font-medium mb-2">Cron Expression</label>
         <input
           type="text"
           value={expression}
           onChange={(e) => setExpression(e.target.value)}
-          placeholder="* * * * * (minut timme dag månad veckodag)"
+          placeholder="* * * * * (minute hour day month weekday)"
           className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
         />
         <p className="text-xs text-gray-500 mt-1">
-          Format: minut (0-59) | timme (0-23) | dag (1-31) | månad (1-12) | veckodag (0-6, 0=söndag)
+          Format: minute (0-59) | hour (0-23) | day (1-31) | month (1-12) | weekday (0-6, 0=Sunday)
         </p>
       </div>
 
       {/* Quick Examples */}
       <div>
-        <h3 className="text-sm font-medium mb-2">Snabbval</h3>
+        <h3 className="text-sm font-medium mb-2">Quick Templates</h3>
         <div className="flex flex-wrap gap-2">
           {[
-            { label: 'Varje minut', value: '* * * * *' },
-            { label: 'Varje timme', value: '0 * * * *' },
-            { label: 'Varje dag kl 09:00', value: '0 9 * * *' },
-            { label: 'Vardagar kl 08:00', value: '0 8 * * 1-5' },
-            { label: 'Var 15:e minut', value: '*/15 * * * *' },
-            { label: 'Första dag varje månad', value: '0 0 1 * *' },
+            { label: 'Every minute', value: '* * * * *' },
+            { label: 'Every hour', value: '0 * * * *' },
+            { label: 'Daily at 9:00 AM', value: '0 9 * * *' },
+            { label: 'Weekdays at 8:00 AM', value: '0 8 * * 1-5' },
+            { label: 'Every 15 minutes', value: '*/15 * * * *' },
+            { label: 'First day of month', value: '0 0 1 * *' },
           ].map((example) => (
             <button
               key={example.value}
@@ -117,7 +117,7 @@ export default function CronTester() {
       {error && (
         <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
           <p className="text-red-400 text-sm">
-            <strong>Ogiltigt cron-uttryck:</strong> {error}
+            <strong>Invalid cron expression:</strong> {error}
           </p>
         </div>
       )}
@@ -125,7 +125,7 @@ export default function CronTester() {
       {/* Explanation */}
       {!error && explanation && (
         <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
-          <h3 className="text-sm font-semibold mb-2 text-blue-300">Förklaring</h3>
+          <h3 className="text-sm font-semibold mb-2 text-blue-300">Explanation</h3>
           <p className="text-gray-200">{explanation}</p>
         </div>
       )}
@@ -133,7 +133,7 @@ export default function CronTester() {
       {/* Next Executions */}
       {!error && nextExecutions.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium mb-3">Kommande körningar</h3>
+          <h3 className="text-sm font-medium mb-3">Next Executions</h3>
           <div className="bg-gray-800 border border-gray-700 rounded-lg divide-y divide-gray-700">
             {nextExecutions.map((date, idx) => (
               <div key={idx} className="p-4 flex items-start justify-between hover:bg-gray-750 transition-colors">

@@ -19,11 +19,11 @@ export default function Home() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <h1 className="text-3xl font-bold">Regex & Cron Visualisator</h1>
+              <h1 className="text-3xl font-bold">Regex & Cron Visualizer</h1>
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Växla tema"
+                aria-label="Toggle theme"
               >
                 {theme === 'dark' ? (
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -37,7 +37,7 @@ export default function Home() {
               </button>
             </div>
             <p className="text-gray-600 dark:text-gray-400">
-              Testa och visualisera regex-mönster och cron-uttryck i realtid
+              Test and visualize regex patterns and cron expressions in real-time
             </p>
           </div>
 
@@ -80,7 +80,7 @@ export default function Home() {
 
           {/* Footer */}
           <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
-            <p>Ett devtools-projekt för utvecklare • Bygg med Next.js & TypeScript</p>
+            <p>A developer tools project • Built with Next.js & TypeScript</p>
           </div>
         </div>
       </div>

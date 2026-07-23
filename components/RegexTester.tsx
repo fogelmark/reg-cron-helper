@@ -73,13 +73,13 @@ export default function RegexTester() {
     <div className="space-y-6">
       {/* Pattern Input */}
       <div>
-        <label className="block text-sm font-medium mb-2">Regex-mönster</label>
+        <label className="block text-sm font-medium mb-2">Regex Pattern</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={pattern}
             onChange={(e) => setPattern(e.target.value)}
-            placeholder="Skriv ditt regex-mönster här..."
+            placeholder="Enter your regex pattern here..."
             className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
           />
           <div className="flex gap-1 items-center bg-gray-800 border border-gray-700 rounded-lg px-3">
@@ -108,7 +108,7 @@ export default function RegexTester() {
       {error && (
         <div className="bg-red-900/30 border border-red-700 rounded-lg p-4">
           <p className="text-red-400 text-sm">
-            <strong>Ogiltigt regex:</strong> {error}
+            <strong>Invalid regex:</strong> {error}
           </p>
         </div>
       )}
@@ -116,7 +116,7 @@ export default function RegexTester() {
       {/* Explanation */}
       {!error && tokens.length > 0 && (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <h3 className="text-sm font-semibold mb-3">Förklaring</h3>
+          <h3 className="text-sm font-semibold mb-3">Explanation</h3>
           <div className="space-y-1">
             {tokens.map((token, idx) => (
               <div key={idx} className="flex gap-3 text-sm">
@@ -132,11 +132,11 @@ export default function RegexTester() {
 
       {/* Test Text */}
       <div>
-        <label className="block text-sm font-medium mb-2">Testdata</label>
+        <label className="block text-sm font-medium mb-2">Test Data</label>
         <textarea
           value={testText}
           onChange={(e) => setTestText(e.target.value)}
-          placeholder="Skriv eller klistra in text att testa mot..."
+          placeholder="Enter or paste text to test against..."
           rows={8}
           className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
         />
@@ -145,7 +145,7 @@ export default function RegexTester() {
       {/* Highlighted Text */}
       {testText && (
         <div>
-          <h3 className="text-sm font-medium mb-2">Resultat ({matches.length} matchning{matches.length !== 1 ? 'ar' : ''})</h3>
+          <h3 className="text-sm font-medium mb-2">Results ({matches.length} match{matches.length !== 1 ? 'es' : ''})</h3>
           <div
             className="bg-gray-800 border border-gray-700 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap break-words"
             dangerouslySetInnerHTML={{ __html: highlightedText }}
@@ -156,7 +156,7 @@ export default function RegexTester() {
       {/* Matches List */}
       {matches.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium mb-2">Matchningar</h3>
+          <h3 className="text-sm font-medium mb-2">Matches</h3>
           <div className="bg-gray-800 border border-gray-700 rounded-lg divide-y divide-gray-700">
             {matches.map((match, idx) => (
               <div key={idx} className="p-3">
@@ -175,7 +175,7 @@ export default function RegexTester() {
                         {match.slice(1).map((group, groupIdx) => (
                           <div key={groupIdx} className="text-xs flex gap-2">
                             <span className="text-gray-500">Group {groupIdx + 1}:</span>
-                            <code className="bg-gray-900 px-1 rounded">{group || '(tom)'}</code>
+                            <code className="bg-gray-900 px-1 rounded">{group || '(empty)'}</code>
                           </div>
                         ))}
                       </div>
