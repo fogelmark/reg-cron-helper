@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat node_modules/cron-parser/README.md)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
